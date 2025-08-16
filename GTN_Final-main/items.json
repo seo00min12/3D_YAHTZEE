@@ -1,0 +1,8 @@
+[
+    { "id": 0, "title": "red_dice", "cost": 2, "src": "https://gateway.pinata.cloud/ipfs/QmVTPrvsTCQQYC8DE8K6thVuUREj2CyRJAhcvqddiwqt6f" },
+    { "id": 1, "title": "blue_dice", "cost": 3, "src": "https://gateway.pinata.cloud/ipfs/QmTX7VLAwhbQVjphkzznT3u1Az67mNEKzfgzy3QXoGJXe6" },
+    { "id": 2, "title": "green_dice", "cost": 2, "src": "https://gateway.pinata.cloud/ipfs/QmW97nBEeZeRSzjAVcTTy5bjp2Vfh18dsJzg5nFTyWqZGc" },
+    { "id": 3, "title": "yellow_dice", "cost": 4, "src": "https://gateway.pinata.cloud/ipfs/QmTmWmiAHV1U8LPGzuPdjs8KYfQS7NCdHzpNQvH1cwvzea" },
+    { "id": 4, "title": "aqua_dice", "cost": 5, "src": "https://gateway.pinata.cloud/ipfs/QmWGfgE7ugsSEbKbNbZzWHLAUhc2gTpsoyLvEn8KUycYWz" },
+    { "id": 5, "title": "violet_dice", "cost": 6, "src": "https://gateway.pinata.cloud/ipfs/QmTZQSYwwYA8ZBBTft2dwL7up4u9mM8rt2wSf3Qj7UuRY6" }
+]

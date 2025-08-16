@@ -1,0 +1,7 @@
+[
+    { "id": 100, "title": "desert", "cost": 30, "src": "https://gateway.pinata.cloud/ipfs/Qmf5LTQSHB6YGg93iqdptb4KYdNKME2Ljhw6rf5MafphrD" },
+    { "id": 101, "title": "snowy_mountain", "cost": 30, "src": "https://gateway.pinata.cloud/ipfs/QmQAk4skFMtVTwLEaV247Futc1BovQV1gGvWR8Dk1Kpwec" },
+    { "id": 102, "title": "forest_map", "cost": 25, "src": "https://gateway.pinata.cloud/ipfs/QmRLLhEVtt2dZrGLEQ8n4HnvU83282rgDiCGPYzhviQyE5" },
+    { "id": 103, "title": "volcano", "cost": 40, "src": "https://gateway.pinata.cloud/ipfs/QmWKa446iB1oGSwwzUwqYfu6tyoNVPAVAfcWvYKw5H4REf" }
+]
+

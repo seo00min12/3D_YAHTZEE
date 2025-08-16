@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <title>Dice!</title>
+      <link rel="stylesheet" type="text/css" href="css/base.css">
+      
+      <script type="importmap">
+         {
+          "imports": {
+            "three": "https://unpkg.com/three@0.138.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.138.0/examples/jsm/"
+          }
+         }
+       </script>
+
+      <style>
+         /* 🔹 모달 스타일 */
+         .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+         }
+         .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 600px;
+            position: relative;
+            text-align: center;
+         }
+         /* 🔹 닫기 버튼 스타일 */
+         .close-modal-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: #ff6666;
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+         }
+         .close-modal-btn:hover {
+            background: #ff3333;
+            transform: scale(1.2);
+         }
+
+         /* 🔹 iframe 스타일 */
+         .modal iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+         }
+                  /* 🔹 모달 버튼을 왼쪽 아래로 이동 */
+         .open-modal-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background-color: #ffcc00;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 9999; /* 다른 요소 위로 오도록 설정 */
+         }
+         .open-modal-btn2 {
+            position: fixed;
+            bottom: 20px;
+            left: 270px;
+            background-color: #ff4400;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 9999; /* 다른 요소 위로 오도록 설정 */
+         }
+         .open-modal-btn:hover {
+            background-color: #ff9900;
+            transform: scale(1.1);
+         }
+
+         /* 얏지 게임 스타일 추가 */
+         #yahtzeeGame {
+            display: none;
+         }
+         #yahtzeeGame table {
+            width: 100%;
+            border-collapse: collapse;
+         }
+         #yahtzeeGame th, #yahtzeeGame td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+         }
+         #yahtzeeGame th {
+            background-color: #f2f2f2;
+         }
+         #yahtzeeGame .button {
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+         }
+         #yahtzeeGame .button:disabled {
+            background-color: #ddd;
+         }
+         
+         #yahtzeeGame2 {
+            display: none;
+         }
+         #yahtzeeGame2 table {
+            width: 100%;
+            border-collapse: collapse;
+         }
+         #yahtzeeGame2 th, #yahtzeeGame2 td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #ddd;
+         }
+         #yahtzeeGame2 th {
+            background-color: #f2f2f2;
+         }
+         #yahtzeeGame2 .button {
+            margin: 5px;
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+         }
+         #yahtzeeGame2 .button:disabled {
+            background-color: #ddd;
+         }
+         /* 모달 내용에 스크롤바 추가 */
+        .modal-content {
+            max-height: 80vh; /* 뷰포트 높이의 80% */
+            overflow-y: auto; /* 세로 스크롤바 추가 */
+        }
+        /*턴 메세지 스타일*/
+        .turnMessage {
+            position: fixed; /* position 속성을 fixed로 설정 */
+            top: 0; /* 화면 상단에 고정 */
+            left: 0; /* 화면 왼쪽에 고정 */
+            width: 100%; /* 화면 전체 가로 폭 */
+            
+            z-index: 1000;
+        }
+        
+      </style>
+   </head>
+   <body>
+    <h1 id="turnMessage" class="turnMessage"></h1>
+      <main>
+         <div class="frame">
+            <div class="content">
+               <canvas id="canvas"></canvas>
+               <div class="ui-controls">
+                  <div class="score">
+                     Score: <span id="score-result" data-scores=""></span><br>
+                     <span id="score-sum"></span>
+                  </div>
+                  <button id="roll-btn">Throw!</button>
+                  <div class="roll-counter">
+                     🎲 남은 굴리기 횟수: <span id="roll-count-display">3</span>번
+                  </div>
+
+                  <button id="save-btn" disabled>Save!</button>
+               </div>
+            </div>
+         </div>
+      </main>
+
+      <!-- 모달 열기 버튼 -->
+      <button class="open-modal-btn" onclick="openModal()">🎲 1P 점수판</button>
+      <!-- 첫 번째 모달 창-->
+      <div id="gameModal" class="modal">
+         <div class="modal-content">
+             <button class="close-modal-btn" onclick="closeModal()">✖</button>
+             <h2><span id="turnDisplay">0</span>번째 턴 얏지 게임</h2>
+             <div id="yahtzeeGame">
+                 <h1>얏지 게임</h1>
+                 <button id="loadScores">점수 불러오기</button>
+                 <div id="scoreDisplay"></div>
+                 <script type="module">
+                 import {
+                     displayScores,
+                     loadScores
+                 } from './js/score.js';
+                 document.getElementById('loadScores').addEventListener('click', () => {
+                     loadScores();
+                 });
+                 displayScores();
+                 </script>
+                 <script type="module">
+                 import {
+                     updateScoreBoard,
+                     scoreCategory
+                 } from './js/score.js';
+
+                 
+                 
+ 
+                 document.addEventListener('DOMContentLoaded', () => {
+                     // 모든 카테고리 버튼에 이벤트 리스너 추가
+                     document.querySelectorAll('.category-button').forEach(button => {
+                         button.addEventListener('click', () => {
+                             // 버튼 클릭 시 해당 카테고리 점수 계산 (scoreCategory 함수가 있다고 가정)
+                             scoreCategory(button.id);
+                             // 점수판 업데이트
+                             updateScoreBoard();
+                         });
+                     });
+ 
+                     // 초기 점수판 업데이트
+                     updateScoreBoard();
+                 });
+                 </script>
+ 
+                 <h3>점수판</h3>
+ 
+                 <table class="new-score-table">
+                     <tr>
+                         <th class="left-col">1의 개수</th>
+                         <td><span id="scoreOnes">0</span></td>
+                         <td><button id="ones" class="category-button">선택</button></td>
+                         <th class="left-col">Three of a Kind</th>
+                         <td><span id="scoreThreeOfAKind">0</span></td>
+                         <td><button id="threeOfAKind" class="category-button">선택</button></td>
+                     </tr>
+                     <tr>
+                         <th class="left-col">2의 개수</th>
+                         <td><span id="scoreTwos">0</span></td>
+                         <td><button id="twos" class="category-button">선택</button></td>
+                         <th class="left-col">Four of a Kind</th>
+                         <td><span id="scoreFourOfAKind">0</span></td>
+                         <td><button id="fourOfAKind" class="category-button">선택</button></td>
+                     </tr>
+                     <tr>
+                         <th class="left-col">3의 개수</th>
+                         <td><span id="scoreThrees">0</span></td>
+                         <td><button id="threes" class="category-button">선택</button></td>
+                         <th class="left-col">Full House</th>
+                         <td><span id="scoreFullHouse">0</span></td>
+                         <td><button id="fullHouse" class="category-button">선택</button></td>
+                     </tr>
+                     <tr>
+                         <th class="left-col">4의 개수</th>
+                         <td><span id="scoreFours">0</span></td>
+                         <td><button id="fours" class="category-button">선택</button></td>
+                         <th class="left-col">Small Straight</th>
+                         <td><span id="scoreSmallStraight">0</span></td>
+                         <td><button id="smallStraight" class="category-button">선택</button></td>
+                     </tr>
+                     <tr>
+                         <th class="left-col">5의 개수</th>
+                         <td><span id="scoreFives">0</span></td>
+                         <td><button id="fives" class="category-button">선택</button></td>
+                         <th class="left-col">Large Straight</th>
+                         <td><span id="scoreLargeStraight">0</span></td>
+                         <td><button id="largeStraight" class="category-button">선택</button></td>
+                     </tr>
+                     <tr>
+                         <th class="left-col">6의 개수</th>
+                         <td><span id="scoreSixes">0</span></td>
+                         <td><button id="sixes" class="category-button">선택</button></td>
+                         <th class="left-col">Yahtzee</th>
+                         <td><span id="scoreYahtzee">0</span></td>
+                         <td><button id="yahtzee" class="category-button">선택</button></td>
+                     </tr>
+                     <tr>
+                         <th class="left-col">상단 섹션 합계</th>
+                         <td><span id="upperSectionTotal">0</span></td>
+                         <td>-</td>
+                         <th class="left-col">Chance</th>
+                         <td><span id="scoreChance">0</span></td>
+                         <td><button id="chance" class="category-button">선택</button></td>
+                     </tr>
+                     <tr>
+                         <th class="left-col">보너스(+35)</th>
+                         <td><span id="bonus">0</span></td>
+                         <td>-</td>
+                         <th class="left-col">하단 섹션 총점</th>
+                         <td><span id="lowerSectionTotal">0</span></td>
+                         <td>-</td>
+                     </tr>
+                     <tr>
+                         <th class="left-col">상단 섹션 총점</th>
+                         <td><span id="upperSectionGrandTotal">0</span></td>
+                         <td>-</td>
+                         <th class="left-col">총점</th>
+                         <td><span id="grandTotal">0</span></td>
+                         <td>-</td>
+                     </tr>
+                 </table>
+ 
+             </div>
+         </div>
+     </div>
+     <button class="open-modal-btn2" onclick="openModal2()">🎲 2P 점수판</button>
+
+     <!-- 두 번째 모달 창-->
+     <div id="gameModal2" class="modal">
+      <div class="modal-content">
+          <button class="close-modal-btn" onclick="closeModal2()">✖</button>
+          <h2><span id="turnDisplay2">0</span>번째 턴 얏지 게임</h2>
+          <div id="yahtzeeGame2">
+              <h1>얏지 게임</h1>
+              <button id="loadScores2">점수 불러오기</button>
+              <div id="scoreDisplay2"></div>
+              <script type="module">
+              import {
+                  displayScores,
+                  loadScores
+              } from './js/score.js';
+              document.getElementById('loadScores2').addEventListener('click', () => {
+                  loadScores();
+              });
+              displayScores();
+              </script>
+              <script type="module">
+              import {
+                  updateScoreBoard,
+                  scoreCategory
+              } from './js/score.js';
+
+              
+             
+
+              document.addEventListener('DOMContentLoaded', () => {
+                  // 모든 카테고리 버튼에 이벤트 리스너 추가
+                  document.querySelectorAll('.category-button').forEach(button => {
+                      button.addEventListener('click', () => {
+                          // 버튼 클릭 시 해당 카테고리 점수 계산 (scoreCategory 함수가 있다고 가정)
+                          scoreCategory(button.id);
+                          // 점수판 업데이트
+                          updateScoreBoard();
+                      });
+                  });
+
+                  // 초기 점수판 업데이트
+                  updateScoreBoard();
+              });
+              </script>
+
+              <h3>점수판</h3>
+
+              <table class="new-score-table">
+                  <tr>
+                      <th class="left-col">1의 개수</th>
+                      <td><span id="scoreOnes2">0</span></td>
+                      <td><button id="ones2" class="category-button">선택</button></td>
+                      <th class="left-col">Three of a Kind</th>
+                      <td><span id="scoreThreeOfAKind2">0</span></td>
+                      <td><button id="threeOfAKind2" class="category-button">선택</button></td>
+                  </tr>
+                  <tr>
+                      <th class="left-col">2의 개수</th>
+                      <td><span id="scoreTwos2">0</span></td>
+                      <td><button id="twos2" class="category-button">선택</button></td>
+                      <th class="left-col">Four of a Kind</th>
+                      <td><span id="scoreFourOfAKind2">0</span></td>
+                      <td><button id="fourOfAKind2" class="category-button">선택</button></td>
+                  </tr>
+                  <tr>
+                      <th class="left-col">3의 개수</th>
+                      <td><span id="scoreThrees2">0</span></td>
+                      <td><button id="threes2" class="category-button">선택</button></td>
+                      <th class="left-col">Full House</th>
+                      <td><span id="scoreFullHouse2">0</span></td>
+                      <td><button id="fullHouse2" class="category-button">선택</button></td>
+                  </tr>
+                  <tr>
+                      <th class="left-col">4의 개수</th>
+                      <td><span id="scoreFours2">0</span></td>
+                      <td><button id="fours2" class="category-button">선택</button></td>
+                      <th class="left-col">Small Straight</th>
+                      <td><span id="scoreSmallStraight2">0</span></td>
+                      <td><button id="smallStraight2" class="category-button">선택</button></td>
+                  </tr>
+                  <tr>
+                      <th class="left-col">5의 개수</th>
+                      <td><span id="scoreFives2">0</span></td>
+                      <td><button id="fives2" class="category-button">선택</button></td>
+                      <th class="left-col">Large Straight</th>
+                      <td><span id="scoreLargeStraight2">0</span></td>
+                      <td><button id="largeStraight2" class="category-button">선택</button></td>
+                  </tr>
+                  <tr>
+                      <th class="left-col">6의 개수</th>
+                      <td><span id="scoreSixes2">0</span></td>
+                      <td><button id="sixes2" class="category-button">선택</button></td>
+                      <th class="left-col">Yahtzee</th>
+                      <td><span id="scoreYahtzee2">0</span></td>
+                      <td><button id="yahtzee2" class="category-button">선택</button></td>
+                  </tr>
+                  <tr>
+                      <th class="left-col">상단 섹션 합계</th>
+                      <td><span id="upperSectionTotal2">0</span></td>
+                      <td>-</td>
+                      <th class="left-col">Chance</th>
+                      <td><span id="scoreChance2">0</span></td>
+                      <td><button id="chance2" class="category-button">선택</button></td>
+                  </tr>
+                  <tr>
+                      <th class="left-col">보너스(+35)</th>
+                      <td><span id="bonus2">0</span></td>
+                      <td>-</td>
+                      <th class="left-col">하단 섹션 총점</th>
+                      <td><span id="lowerSectionTotal2">0</span></td>
+                      <td>-</td>
+                  </tr>
+                  <tr>
+                      <th class="left-col">상단 섹션 총점</th>
+                      <td><span id="upperSectionGrandTotal2">0</span></td>
+                      <td>-</td>
+                      <th class="left-col">총점</th>
+                      <td><span id="grandTotal2">0</span></td>
+                      <td>-</td>
+                  </tr>
+              </table>
+
+          </div>
+      </div>
+  </div>
+
+      <script>
+         function openModal() {
+            document.getElementById("gameModal").style.display = "flex";
+            document.getElementById("yahtzeeGame").style.display = "block";
+         }
+         function closeModal() {
+            document.getElementById("gameModal").style.display = "none";
+            document.getElementById("yahtzeeGame").style.display = "none";
+         }
+         function openModal2() {
+            document.getElementById("gameModal2").style.display = "flex";
+            document.getElementById("yahtzeeGame2").style.display = "block";
+         }
+         function closeModal2() {
+            document.getElementById("gameModal2").style.display = "none";
+            document.getElementById("yahtzeeGame2").style.display = "none";
+         }
+      </script>
+
+      
+      <script type="module" src="./js/3d_ani.js"></script>
+      <script type="module">
+         import { savedScores, loadScores } from './js/score.js';
+      
+         // 🔹 `savedScores`를 `window` 객체에 추가
+         window.savedScores = savedScores;
+         window.loadScores = loadScores; // `sol.html`에서도 호출 가능하도록 등록
+      
+         document.getElementById("loadScores").addEventListener("click", () => {
+             console.log("🔄 점수 불러오기 버튼 클릭됨!");
+             loadScores(); // ✅ 이제 UI에 점수 표시!
+         });
+      </script>
+      
+     <script>
+      async function initializeSolPage() {
+          console.log("🔄 game.html 초기화 중...");
+         //  await ensureContractInitialized();
+          console.log("✅ contract가 초기화됨.");
+      }
+  
+      initializeSolPage();
+  </script>
+
+      
+   </body>
+</html>

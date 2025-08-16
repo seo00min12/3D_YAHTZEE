@@ -1,0 +1,177 @@
+/* ✅ 전체 페이지 스타일 (배경 이미지 적용 + 투명도 추가) */
+body {
+    font-family: "Arial", sans-serif;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), 
+                url("../images/nft_bg.jpg") no-repeat center center/cover;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+/* ✅ 제목 스타일 (더 돋보이게) */
+h1 {
+    font-size: 52px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, #ffcc00, #ff8800, #ffcc00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 5px 5px 20px rgba(255, 204, 0, 0.8);
+    padding: 10px;
+    margin-top: 20px;
+    animation: glow 1.5s infinite alternate;
+}
+
+/* ✅ 네온 애니메이션 */
+@keyframes glow {
+    0% {
+        text-shadow: 0px 0px 10px rgba(255, 204, 0, 0.8), 0px 0px 15px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        text-shadow: 0px 0px 20px rgba(255, 204, 0, 1), 0px 0px 25px rgba(255, 255, 255, 0.7);
+    }
+}
+
+/* ✅ GTN 잔액 스타일 */
+#gtnBalance {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00ffcc;
+    text-shadow: 2px 2px 10px rgba(0, 255, 204, 0.8);
+    background: rgba(0, 0, 0, 0.4);
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* ✅ 버튼 스타일 (더 입체적 & 돋보이게) */
+button {
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 10px;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* ✅ 버튼 호버 효과 */
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 5px 5px 15px rgba(255, 255, 255, 0.5);
+}
+
+/* ✅ 각 버튼 스타일링 */
+.btn-warning { background: #ff4d4d; color: white; }
+.btn-warning:hover { background: #e63946; }
+
+.btn-primary { background: #007bff; color: white; }
+.btn-primary:hover { background: #0056b3; }
+
+.btn-secondary { background: #6c757d; color: white; }
+.btn-secondary:hover { background: #5a6268; }
+
+.btn-info { background: #17a2b8; color: white; }
+.btn-info:hover { background: #138496; }
+
+#go-nft-manage-btn {
+    display: none;
+    background: #ffcc00;
+    color: black;
+    font-size: 18px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+#go-nft-manage-btn:hover {
+    background: #ffb300;
+}
+
+.nft-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.nft-item {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 15px;
+    margin: 15px;
+    width: 250px;
+    background: rgba(0, 0, 0, 0.5);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.nft-item:hover {
+    transform: scale(1.05);
+    box-shadow: 5px 5px 20px rgba(255, 255, 255, 0.5);
+}
+
+.nft-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+}
+
+.nft-item img:hover {
+    opacity: 1;
+}
+
+.nft-item button {
+    padding: 12px;
+    margin-top: 10px;
+    background: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+    font-size: 16px;
+}
+
+.nft-item button:hover {
+    background: #e68900;
+}
+
+.wallet-section {
+    display: inline-block;
+    background: rgba(0, 0, 0, 0.6);  
+    padding: 12px 25px;
+    border-radius: 10px;
+    margin: 15px auto;
+    box-shadow: 0px 0px 15px rgba(0, 255, 204, 0.8);
+}
+
+.wallet-label {
+    font-size: 22px;
+    font-weight: bold;
+    color: #00ffcc;
+    text-shadow: 2px 2px 10px rgba(0, 255, 204, 0.8);
+}
+
+#walletAddress {
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffcc00;
+    text-shadow: 3px 3px 15px rgba(255, 204, 0, 0.8);
+    padding: 5px 10px;
+    border-radius: 8px;
+    background: rgba(255, 204, 0, 0.2);
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+#walletAddress:hover {
+    transform: scale(1.05);
+    text-shadow: 4px 4px 20px rgba(255, 204, 0, 1);
+}

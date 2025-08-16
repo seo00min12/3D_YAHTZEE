@@ -1,0 +1,197 @@
+body {
+    font-family: "Arial", sans-serif;
+    text-align: center;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+                url("../images/store_bg.jpg") no-repeat center center/cover;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: bold;
+    color: #ffcc00;
+    text-shadow: 3px 3px 10px rgba(255, 204, 0, 0.8), 
+                 0px 0px 15px rgba(255, 255, 255, 0.5);
+    background: linear-gradient(90deg, #ffcc00, #ff9900);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-top: 20px;
+    padding: 10px;
+    animation: glow 1.5s infinite alternate;
+}
+
+@keyframes glow {
+    0% {
+        text-shadow: 3px 3px 10px rgba(255, 204, 0, 0.8),
+                     0px 0px 15px rgba(255, 255, 255, 0.5);
+    }
+    100% {
+        text-shadow: 5px 5px 20px rgba(255, 204, 0, 1),
+                     0px 0px 25px rgba(255, 255, 255, 0.7);
+    }
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin: 10px;
+}
+
+.logout-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #ff4d4d;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.logout-btn:hover {
+    background: #e63946;
+}
+
+.dice-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.dice-card {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    padding: 15px;
+    margin: 15px;
+    width: 250px;
+    background: rgba(0, 0, 0, 0.6);
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.dice-card:hover {
+    transform: scale(1.05);
+    box-shadow: 5px 5px 20px rgba(255, 255, 255, 0.5);
+}
+
+.dice-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.dice-card p {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.dice-card button {
+    padding: 12px;
+    margin-top: 10px;
+    background: #ff9800;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 100%;
+    font-size: 16px;
+}
+
+.dice-card button:hover {
+    background: #e68900;
+}
+
+#start-game-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ff9800;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    border-radius: 35px;
+    padding: 20px 40px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#start-game-btn:hover {
+    background-color: #e68900;
+    transform: scale(1.15);
+}
+
+#balance {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00ffcc;
+    text-shadow: 2px 2px 10px rgba(0, 255, 204, 0.8);
+    background: rgba(0, 0, 0, 0.4);
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+#go-map-store-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+#go-nft-store-btn {
+    background-color: #6f42c1;
+    color: white;
+}
+
+.purchase-history {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background: rgba(0, 0, 0, 0.75); /* 반투명한 배경 */
+    padding: 15px;
+    border-radius: 10px;
+    display: inline-block;
+    color: white;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.5);
+    width: 250px;
+    max-height: 200px;
+    overflow-y: auto; /* 구매 목록이 길어지면 스크롤 생성 */
+}
+
+.purchase-history h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ffcc00; /* 강조된 색상 */
+    text-align: left;
+}
+
+.purchase-history ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.purchase-history li {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: background 0.3s;
+}
+
+.purchase-history li:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
